@@ -12,6 +12,8 @@
 # Default field separator is tab character, but can be overriden with
 # any string value (including an empty string).
 #
+# Note: Script isn't ideal solution for web pages containing nested tables.
+#
 # Author: Dean Holbrook
 # Date  : 2 December 2012
 ################################################################################
@@ -40,7 +42,19 @@ my @tables = $tree->look_down('_tag' => 'table');
 my $tableNumber;
 for my $table (@tables) {
 	$tableNumber++;
-    print "\nTable $tableNumber\n";
+
+    # Check for summary or caption
+    my($caption) = $table->look_down('_tag' => 'caption');
+    my $summary = $table->attr('summary');
+    my $tableLabel;
+    if ($caption) {
+        $tableLabel = $caption->as_text;
+    } elsif ( $summary ) {
+        $tableLabel = $summary;
+    } else {
+        $tableLabel = "Table $tableNumber";
+    }
+    print "\n$tableLabel\n";    
 
     # Find all rows in table
     my @rows = $table->look_down('_tag' => 'tr');

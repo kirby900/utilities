@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 
 ################################################################################
+# find_dup_files.pl
+#
 # Find (and optionally delete) duplicate files in a directory tree.
 #
 # Author: Dean Holbrook
